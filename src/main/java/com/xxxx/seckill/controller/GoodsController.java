@@ -3,10 +3,14 @@ package com.xxxx.seckill.controller;
 import com.xxxx.seckill.pojo.User;
 import com.xxxx.seckill.service.IGoodsService;
 import com.xxxx.seckill.service.IUserService;
+import com.xxxx.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Date;
 
 /**
  * @Auther:huhao
@@ -31,13 +35,38 @@ public class GoodsController {
 
 	}
 
+	@RequestMapping("/toDetail/{goodsId}")
+	public String toDetail(Model model, User user, @PathVariable long goodsId){
+		model.addAttribute("user",user);
+		GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
+		Date startDate=goodsVo.getStartDate();
+		Date endDate=goodsVo.getEndDate();
+		Date nowDate = new Date();
+		int seckillStatus=0;
+		int remainSeconds=0;
+		if (nowDate.before(startDate)){
+            remainSeconds=(int) ((startDate.getTime() - nowDate.getTime())/1000);
+		}else if (nowDate.after(endDate)){
+			seckillStatus=2;
+			seckillStatus=-1;
+		}else{
+			seckillStatus=1;
+			remainSeconds=0;
+		}
+		model.addAttribute("seckillStatus",seckillStatus);
+		model.addAttribute("goods",goodsVo);
+		model.addAttribute("remainSeconds",remainSeconds);
+		return "goodsDetail";
+	}
 
-	/*
 
-	@RequestMapping(value = "/toDetail2/{goodsId}", produces = "text/html;charset=utf-8")
+
+
+
+	/*@RequestMapping(value = "/toDetail2/{goodsId}", produces = "text/html;charset=utf-8")
 	@ResponseBody
 	public String toDetail2(Model model, User user, @PathVariable Long goodsId,
-	                        HttpServletRequest request, HttpServletResponse response) {
+							HttpServletRequest request, HttpServletResponse response) {
 		ValueOperations valueOperations = redisTemplate.opsForValue();
 		//Redis中获取页面，如果不为空，直接返回页面
 		String html = (String) valueOperations.get("goodsDetail:" + goodsId);
