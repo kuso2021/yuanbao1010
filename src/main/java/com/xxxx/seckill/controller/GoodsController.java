@@ -42,18 +42,18 @@ public class GoodsController {
 		Date startDate=goodsVo.getStartDate();
 		Date endDate=goodsVo.getEndDate();
 		Date nowDate = new Date();
-		int seckillStatus=0;
+		int secKillStatus=0;
 		int remainSeconds=0;
 		if (nowDate.before(startDate)){
             remainSeconds=(int) ((startDate.getTime() - nowDate.getTime())/1000);
 		}else if (nowDate.after(endDate)){
-			seckillStatus=2;
-			seckillStatus=-1;
+			secKillStatus=2;
+			remainSeconds=-1;
 		}else{
-			seckillStatus=1;
+			secKillStatus=1;
 			remainSeconds=0;
 		}
-		model.addAttribute("seckillStatus",seckillStatus);
+		model.addAttribute("secKillStatus",secKillStatus);
 		model.addAttribute("goods",goodsVo);
 		model.addAttribute("remainSeconds",remainSeconds);
 		return "goodsDetail";
