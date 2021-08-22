@@ -48,7 +48,7 @@ spring:
   # redis配置
   redis:
     #服务器地址
-    host: 192.168.67.128
+    host: 192.168.67.129
     #端口
     port: 6379
     #数据库
@@ -70,7 +70,7 @@ spring:
   # RabbitMQ
   rabbitmq:
     # 服务器
-    host: 192.168.67.128
+    host: 192.168.67.129
     #用户名
     username: guest
     #密码

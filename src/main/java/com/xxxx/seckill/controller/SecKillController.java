@@ -20,13 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 秒杀
- * <p>
- * 乐字节：专注线上IT培训
- * 答疑老师微信：lezijie
- *
- * @author zhoubin
- * @since 1.0.0
+ * @Auther:huhao
+ * @Date:2021/8/18-21:47
+ * @Description:com.xxxx.seckill.controller
+ * @version:1.0
  */
 @Slf4j
 @Controller
@@ -48,19 +45,10 @@ public class SecKillController {
 
 	private Map<Long, Boolean> EmptyStockMap = new HashMap<>();
 
+//window优化前QPS:258
+//linux优化前QPS：
 
-	/**
-	 * 功能描述: 秒杀
-	 * windows优化前QPS：785
-	 * Linux优化前QPS：170
-	 *
-	 * @param:
-	 * @return: 乐字节：专注线上IT培训
-	 * 答疑老师微信：lezijie
-	 * @since: 1.0.0
-	 * @Author:zhoubin
-	 */
-	@RequestMapping("/doSeckill2")
+	@RequestMapping("/doSeckill")
 	public String doSeckill2(Model model, User user, Long goodsId) {
 		if (user == null) {
 			return "login";

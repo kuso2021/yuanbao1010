@@ -25,7 +25,8 @@ public class GoodsController {
 	private IUserService userService;
 	@Autowired
 	private IGoodsService goodsService;
-
+//windows优化前QPS:180
+	//linux优化前QPS：18
 
 	@RequestMapping(value = "/toList")
 	public String toList(Model model, User user) {
