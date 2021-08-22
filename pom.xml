@@ -27,6 +27,10 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 			<version>2.5.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 		<!--web 组件-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
