@@ -63,9 +63,7 @@ public class SecKillController  {
 			return "secKillFail";
 		}
 		//判断是否重复抢购
-		SeckillOrder seckillOrder =
-				seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id",
-						goodsId));
+		SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":" + goodsId);
 		if (seckillOrder != null) {
 			model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
 			return "secKillFail";
@@ -74,6 +72,7 @@ public class SecKillController  {
 		model.addAttribute("order", order);
 		model.addAttribute("goods", goods);
 		return "orderDetail";
+
 	}
 
 	@RequestMapping(value = "/doSeckill",method = RequestMethod.POST)
@@ -85,7 +84,6 @@ public class SecKillController  {
 		GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
 		//判断库存
 		if (goods.getStockCount() < 1) {
-			model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
 			return RespBean.error(RespBeanEnum.EMPTY_STOCK);
 		}
 		//判断是否重复抢购
@@ -93,7 +91,6 @@ public class SecKillController  {
 				seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id",
 						goodsId));
 		if (seckillOrder != null) {
-			model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
 			return RespBean.error(RespBeanEnum.REPEATE_ERROR);
 		}
 		Order order = orderService.seckill(user, goods);
