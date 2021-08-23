@@ -1,15 +1,22 @@
 package com.xxxx.seckill.config;
 
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * @Auther:huhao
  * @Date:2021/8/18-21:47
  * @Description:com.xxxx.seckill.controller
  * @version:1.0
  */
-/*@Configuration
+@Configuration
 public class RabbitMQTopicConfig {
 
-	 private static final String QUEUE01 = "queue_topic01";
+	/* private static final String QUEUE01 = "queue_topic01";
 	 private static final String QUEUE02 = "queue_topic02";
 	 private static final String EXCHANGE = "topicExchange";
 	 private static final String ROUTINGKEY01 = "#.queue.#";
@@ -40,7 +47,9 @@ public class RabbitMQTopicConfig {
 	 	return BindingBuilder.bind(queue02()).to(topicExchange()).with(ROUTINGKEY02);
 	 }*/
 
-	/*private static final String QUEUE = "seckillQueue";
+
+
+    private static final String QUEUE = "seckillQueue";
 	private static final String EXCHANGE = "seckillExchange";
 
 
@@ -58,4 +67,4 @@ public class RabbitMQTopicConfig {
 	public Binding binding() {
 		return BindingBuilder.bind(queue()).to(topicExchange()).with("seckill.#");
 	}
-}*/
+}

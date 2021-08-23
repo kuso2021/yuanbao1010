@@ -15,6 +15,7 @@ import com.xxxx.seckill.vo.OrderDetailVo;
 import com.xxxx.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,12 +47,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional
     public Order seckill(User user, Goods goods) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
         SeckillGoods seckillGoods=seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id",goods.getId()));
         seckillGoods.setStockCount(seckillGoods.getStockCount()-1);
         boolean result=seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count=stock_count-1").eq("goods_id",goods.getId()).gt("stock_count",0));
-        if (!result){
-            return null;
-        }
+       if (seckillGoods.getStockCount()<1){
+           valueOperations.set("isStockEmpty:"+goods.getId(),0);
+           return null;
+       }
         Order order=new Order();
         order.setUserId(user.getId());
         order.setGoodsId(goods.getId());
@@ -69,7 +72,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         seckillOrder.setGoodsId(goods.getId());
         seckillOrder.setUserId(user.getId());
         seckillOrderService.save(seckillOrder);
-        redisTemplate.opsForValue().set("order:"+user.getId()+":"+goods.getId(),seckillOrder);
+        valueOperations.set("order:"+user.getId()+":"+goods.getId(),seckillOrder);
         return order;
     }
 

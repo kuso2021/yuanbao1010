@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+;
+
 /**
  * <p>
  *  前端控制器
@@ -30,7 +32,7 @@ public class UserController {
         return RespBean.success(user);
     }
 
-    @ResponseBody
+   /* @ResponseBody
     @RequestMapping("/mq")
     public void mq(){
         mqSender.send("hello");
@@ -76,5 +78,5 @@ public class UserController {
     @RequestMapping("/mq/header02")
     public void mq07(){
         mqSender.send06("hello,header02");
-    }
+    }*/
 }
