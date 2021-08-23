@@ -53,4 +53,28 @@ public class UserController {
     public void mq03(){
         mqSender.send02("hello,green");
     }
+
+    @ResponseBody
+    @RequestMapping("/mq/topic01")
+    public void mq04(){
+        mqSender.send03("hello,red");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/topic02")
+    public void mq05(){
+        mqSender.send02("hello,green");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/header01")
+    public void mq06(){
+        mqSender.send05("hello,header01");
+    }
+
+    @ResponseBody
+    @RequestMapping("/mq/header02")
+    public void mq07(){
+        mqSender.send06("hello,header02");
+    }
 }
