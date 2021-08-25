@@ -2,6 +2,7 @@ package com.xxxx.seckill.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wf.captcha.ArithmeticCaptcha;
+import com.xxxx.seckill.config.AccessLimit;
 import com.xxxx.seckill.exception.GlobalException;
 import com.xxxx.seckill.pojo.Order;
 import com.xxxx.seckill.pojo.SeckillMessage;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
@@ -128,24 +130,6 @@ public class SecKillController implements InitializingBean {
 		return RespBean.success(0);
 
 
-		/*
-		GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
-		//判断库存
-		if (goods.getStockCount() < 1) {
-			return RespBean.error(RespBeanEnum.EMPTY_STOCK);
-		}
-		//判断是否重复抢购
-		// SeckillOrder seckillOrder =
-		// 		seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id",
-		// 				goodsId));
-		SeckillOrder seckillOrder =
-				(SeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":" + goodsId);
-		if (seckillOrder != null) {
-			return RespBean.error(RespBeanEnum.REPEATE_ERROR);
-		}
-		Order order = orderService.seckill(user, goods);
-		return RespBean.success(order);
-		 */
 	}
 
 
@@ -162,7 +146,7 @@ public class SecKillController implements InitializingBean {
 
 
 
-/*	@AccessLimit(second = 5, maxCount = 5, needLogin = true)
+	@AccessLimit(second = 5, maxCount = 5, needLogin = true)
 	@RequestMapping(value = "/path", method = RequestMethod.GET)
 	@ResponseBody
 	public RespBean getPath(User user, Long goodsId, String captcha, HttpServletRequest request) {
@@ -175,7 +159,7 @@ public class SecKillController implements InitializingBean {
 		}
 		String str = orderService.createPath(user, goodsId);
 		return RespBean.success(str);
-	}*/
+	}
 
 
 	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
